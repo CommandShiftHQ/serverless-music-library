@@ -1,50 +1,20 @@
+const { DynamoDB } = require('aws-sdk');
 const uuid = require('uuid');
-const AWS = require('aws-sdk');
+const Artist = require('./lib/repository/artist');
 
 const { TABLE_NAME } = process.env;
-const db = new AWS.DynamoDB();
-
-const putItem = (data) => new Promise((resolve, reject) => {
-  const { name, genre } = data;
-  const artistId = uuid.v4();
-  const recordType = 'PROFILE';
-  const params = {
-    TableName: TABLE_NAME,
-    Item: {
-      artistId: {
-        S: artistId,
-      },
-      recordType: {
-        S: recordType,
-      },
-      name: {
-        S: name,
-      },
-      genre: {
-        S: genre,
-      },
-    },
-  };
-
-  db.putItem(params, (err) => {
-    if (err) {
-      reject(err);
-    } else {
-      resolve({
-        artistId,
-        recordType,
-        name,
-        genre,
-      });
-    }
-  });
-});
+const db = new DynamoDB.DocumentClient();
 
 module.exports.run = async (event) => {
+  const artist = new Artist({
+    dbClient: db,
+    tableName: TABLE_NAME,
+    keyGenerator: uuid,
+  });
   try {
     const data = JSON.parse(event.body);
 
-    const dbResponse = await putItem(data);
+    const dbResponse = await artist.create(data);
 
     const responseBody = JSON.stringify(dbResponse);
 
