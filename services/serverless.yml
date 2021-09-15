@@ -26,3 +26,11 @@ resources:
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: music-library
+
+functions:
+  createArtist:
+    handler: create-artist/index.run
+    events:
+      - httpApi:
+          path: /artist
+          method: post
