@@ -5,6 +5,11 @@ frameworkVersion: '2'
 provider:
   name: 'aws'
   runtime: nodejs12.x
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+      Resource: arn:aws:dynamodb:eu-west-2:371098323635:table/music-library
   lambdaHashingVersion: 20201221
   region: eu-west-2
   stage: dev
@@ -34,3 +39,5 @@ functions:
       - httpApi:
           path: /artist
           method: post
+    environment:
+      TABLE_NAME: music-library
