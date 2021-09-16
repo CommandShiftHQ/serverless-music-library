@@ -35,6 +35,15 @@ resources:
         TableName: ${self:custom.appName}
 
 functions:
+  readArtists:
+    name: ${self:custom.appName}-read-artists 
+    handler: read-artists/handler.run 
+    events:
+      - httpApi:
+          path: /artists
+          method: get   
+    environment:
+      TABLE_NAME: ${self:custom.appName}
   createArtist:
     name: ${self:custom.appName}-create-artist
     handler: create-artist/handler.run
