@@ -37,7 +37,7 @@ resources:
 functions:
   createArtist:
     name: ${self:custom.appName}-create-artist
-    handler: create-artist/index.run
+    handler: create-artist/handler.run
     events:
       - httpApi:
           path: /artist
