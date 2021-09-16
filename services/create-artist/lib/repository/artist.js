@@ -10,8 +10,8 @@ class Artist {
     const partitionKey = `ARTIST$${this.keyGenerator()}`;
     const sortKey = 'PROFILE$';
     const Item = {
-      artistId: partitionKey,
-      recordType: sortKey,
+      partitionKey,
+      sortKey,
       name,
       genre,
     };
