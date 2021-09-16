@@ -9,7 +9,7 @@ module.exports.run = async (event) => {
   const artist = new Artist({
     dbClient: db,
     tableName: TABLE_NAME,
-    keyGenerator: uuid,
+    keyGenerator: uuid.v4,
   });
   try {
     const data = JSON.parse(event.body);

@@ -5,14 +5,16 @@ frameworkVersion: '2'
 provider:
   name: 'aws'
   runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  region: eu-west-2
   iamRoleStatements:
     - Effect: Allow
       Action:
         - dynamodb:PutItem
-      Resource: arn:aws:dynamodb:eu-west-2:371098323635:table/music-library
-  lambdaHashingVersion: 20201221
-  region: eu-west-2
-  stage: dev
+      Resource: arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.appName}
+
+custom:
+  appName: ${opt:stage, 'dev'}-music-library
   
 resources:
   Resources:
@@ -30,14 +32,15 @@ resources:
           - AttributeName: recordType
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
-        TableName: music-library
+        TableName: ${self:custom.appName}
 
 functions:
   createArtist:
+    name: ${self:custom.appName}-create-artist
     handler: create-artist/index.run
     events:
       - httpApi:
           path: /artist
           method: post
     environment:
-      TABLE_NAME: music-library
+      TABLE_NAME: ${self:custom.appName}
