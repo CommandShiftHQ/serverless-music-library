@@ -7,11 +7,11 @@ class Artist {
 
   async create(data) {
     const { name, genre } = data;
-    const artistId = this.keyGenerator();
-    const recordType = 'PROFILE';
+    const partitionKey = `ARTIST$${this.keyGenerator()}`;
+    const sortKey = 'PROFILE$';
     const Item = {
-      artistId,
-      recordType,
+      artistId: partitionKey,
+      recordType: sortKey,
       name,
       genre,
     };
