@@ -1,4 +1,4 @@
-const Artist = require('../lib/repository/artist');
+const Artist = require('../src/repository/artist');
 
 describe('Artist', () => {
   describe('create', () => {
@@ -8,8 +8,8 @@ describe('Artist', () => {
         genre: 'genre',
       };
       const expected = {
-        artistId: 'artistId',
-        recordType: 'PROFILE',
+        partitionKey: 'ARTIST$artistId',
+        sortKey: 'PROFILE$',
         ...data,
       };
       const stubKeyGenerator = () => 'artistId';
