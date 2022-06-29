@@ -37,8 +37,8 @@ resources:
 
 functions:
   readArtists:
-    name: ${self:custom.appName}-read-artists 
-    handler: services/read-artists/handler.run 
+    name: ${self:custom.appName}-list-artists 
+    handler: services/list-artists/handler.run 
     events:
       - httpApi:
           path: /artists
