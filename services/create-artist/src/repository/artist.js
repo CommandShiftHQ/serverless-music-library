@@ -7,8 +7,10 @@ class Artist {
 
   async create(data) {
     const { name, genre } = data;
-    const partitionKey = `ARTIST$${this.keyGenerator()}`;
-    const sortKey = 'PROFILE$';
+    const UUID = this.keyGenerator();
+
+    const partitionKey = `ARTIST#${UUID}`;
+    const sortKey = `ARTIST#${UUID}`;
     const Item = {
       partitionKey,
       sortKey,
@@ -21,7 +23,11 @@ class Artist {
         TableName: this.tableName,
         Item,
       }).promise();
-      return Item;
+      return {
+        id: UUID,
+        name,
+        genre,
+      };
     } catch (err) {
       return err;
     }
