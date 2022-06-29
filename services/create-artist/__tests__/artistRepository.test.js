@@ -8,8 +8,7 @@ describe('Artist', () => {
         genre: 'genre',
       };
       const expected = {
-        partitionKey: 'ARTIST$artistId',
-        sortKey: 'PROFILE$',
+        id: 'artistId',
         ...data,
       };
       const stubKeyGenerator = () => 'artistId';
