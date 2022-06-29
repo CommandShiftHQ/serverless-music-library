@@ -12,6 +12,7 @@ provider:
       - Effect: Allow
         Action:
           - dynamodb:PutItem
+          - dynamodb:Scan
         Resource: arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.appName}
 
 custom:
