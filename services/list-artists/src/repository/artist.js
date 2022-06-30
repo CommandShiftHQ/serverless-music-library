@@ -6,7 +6,9 @@ class Artist {
 
   async list() {
     const params = {
-      TableName: this.tableName
+      TableName: this.tableName,
+      FilterExpression: '#partitionKey = #sortKey',
+      ExpressionAttributeNames: { '#partitionKey': 'partitionKey', '#sortKey': 'sortKey' }
     }
 
     const response = await this.db.scan(params).promise();
