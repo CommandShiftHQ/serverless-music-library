@@ -37,7 +37,7 @@ resources:
         TableName: ${self:custom.appName}
 
 functions:
-  readArtists:
+  listArtists:
     name: ${self:custom.appName}-list-artists 
     handler: services/list-artists/handler.run 
     events:
