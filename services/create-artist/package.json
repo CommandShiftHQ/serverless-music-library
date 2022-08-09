@@ -4,7 +4,9 @@
   "description": "",
   "main": "handler.js",
   "scripts": {
-    "test": "jest --setupFiles dotenv/config"
+    "test:unit": "jest",
+    "test:integration": "jest -c jest.integration.config.js --setupFiles dotenv/config",
+    "test": "npm run test:unit && npm run test:integration"
   },
   "keywords": [],
   "author": "",

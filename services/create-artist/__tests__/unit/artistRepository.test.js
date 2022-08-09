@@ -1,4 +1,4 @@
-const Artist = require('../src/repository/artist');
+const Artist = require('../../src/repository/artist');
 
 describe('Artist', () => {
   describe('create', () => {

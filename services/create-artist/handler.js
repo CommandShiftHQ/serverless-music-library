@@ -1,6 +1,5 @@
 const { DynamoDB } = require('aws-sdk');
 const uuid = require('uuid');
-const { awsConfig } = require('./src/utils/aws-config');
 const ArtistRepository = require('./src/repository/artist');
 const artistSchema = require('./src/schema/artist');
 
@@ -8,7 +7,6 @@ const { TABLE_NAME } = process.env;
 const db = new DynamoDB.DocumentClient();
 
 module.exports.run = async (event) => {
-  awsConfig();
   const artist = new ArtistRepository({
     dbClient: db,
     tableName: TABLE_NAME,

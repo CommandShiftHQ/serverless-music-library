@@ -1,4 +1,4 @@
-const artistSchema = require('../src/schema/artist');
+const artistSchema = require('../../src/schema/artist');
 
 describe('artistSchema', () => {
   it('does not error if given a name and genre', () => {
