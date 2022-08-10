@@ -26,7 +26,7 @@ module.exports.run = async (event) => {
     const dbResponse = await artist.create(value);
     return { statusCode: 201, body: JSON.stringify(dbResponse) };
   } catch (err) {
-    const responseBody = { message: 'bad request', error: err.message };
-    return { statusCode: 402, body: JSON.stringify(responseBody) };
+    const responseBody = { error: err.message };
+    return { statusCode: 500, body: JSON.stringify(responseBody) };
   }
 };
