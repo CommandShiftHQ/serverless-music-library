@@ -18,19 +18,15 @@ class Artist {
       genre,
     };
 
-    try {
-      await this.db.put({
-        TableName: this.tableName,
-        Item,
-      }).promise();
-      return {
-        id: UUID,
-        name,
-        genre,
-      };
-    } catch (err) {
-      return err;
-    }
+    await this.db.put({
+      TableName: this.tableName,
+      Item,
+    }).promise();
+    return {
+      id: UUID,
+      name,
+      genre,
+    };
   }
 }
 

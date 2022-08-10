@@ -1,7 +1,10 @@
 const { DynamoDB } = require('aws-sdk');
 const uuid = require('uuid');
+const configureAws = require('./src/utils/configureAws');
 const ArtistRepository = require('./src/repository/artist');
 const artistSchema = require('./src/schema/artist');
+
+configureAws();
 
 const { TABLE_NAME } = process.env;
 const db = new DynamoDB.DocumentClient();
