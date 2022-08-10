@@ -20,7 +20,7 @@ module.exports.run = async (event) => {
     const { value, error } = artistSchema.validate(body);
 
     if (error) {
-      return { statusCode: 401, body: JSON.stringify({ errors: error.details }) };
+      return { statusCode: 400, body: JSON.stringify({ errors: error.details }) };
     }
 
     const dbResponse = await artist.create(value);

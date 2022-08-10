@@ -66,4 +66,34 @@ describe('createArtist', () => {
     expect(Item.name.S).toBe('name');
     expect(Item.genre.S).toBe('genre');
   });
+
+  it('returns a 400 status code if name is undefined', async () => {
+    const data = {
+      genre: 'genre',
+    };
+    const body = JSON.stringify(data);
+
+    const response = await handler.run({
+      body
+    });
+    const payload = JSON.parse(response.body);
+
+    expect(response.statusCode).toBe(400);
+    expect(payload.errors[0].message).toBe('"name" is required');
+  });
+
+  it('returns a 400 status code if genre is undefined', async () => {
+    const data = {
+      name: 'name'
+    };
+    const body = JSON.stringify(data);
+
+    const response = await handler.run({
+      body
+    });
+    const payload = JSON.parse(response.body);
+
+    expect(response.statusCode).toBe(400);
+    expect(payload.errors[0].message).toBe('"genre" is required');
+  });
 });
