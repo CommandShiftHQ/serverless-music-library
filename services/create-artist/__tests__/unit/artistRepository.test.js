@@ -12,7 +12,7 @@ describe('Artist', () => {
         ...data,
       };
       const stubKeyGenerator = () => 'artistId';
-      const stubDbClient = { put: () => ({ promise: () => Promise.resolve({ ...expected }) }) };
+      const stubDbClient = { put: () => ({ promise: () => Promise.resolve() }) };
       const artist = new Artist({
         dbClient: stubDbClient,
         tableName: 'tableName',

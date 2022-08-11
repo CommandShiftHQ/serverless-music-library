@@ -22,6 +22,7 @@ class Artist {
       TableName: this.tableName,
       Item,
     }).promise();
+
     return {
       id: UUID,
       name,
