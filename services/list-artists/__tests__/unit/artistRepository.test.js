@@ -2,25 +2,24 @@ const Artist = require('../../src/repository/artist');
 
 describe('Artist', () => {
   describe('list', () => {
-    it('returns all artists in the db', (done) => {
-      const data = {
-        name: 'artistName',
-        genre: 'genre',
-      };
-      const expected = {
-        id: 'artistId',
-        ...data,
-      };
-      const stubDbClient = { scan: () => ({ promise: () => Promise.resolve({ ...expected }) }) };
+    it('returns all artists in the db', async () => {
+      const responseData = { Items: [{
+        partitionKey: 'ARTIST#artistId',
+        sortKey: 'ARTIST#artistId',
+        name: { S: 'name' },
+        genre: { S: 'genre' }
+      }]};
+
+      const expected = [{genre: 'genre', id: 'artistId', name: 'name'}]
+
+      const stubDbClient = { scan: () => ({ promise: () => Promise.resolve(responseData) }) };
       const artist = new Artist({
         dbClient: stubDbClient,
         tableName: 'tableName',
       });
 
-      artist.list(data).then((actual) => {
-        expect(actual).toEqual(expected);
-        done();
-      });
+      const actual = await artist.list()
+      expect(actual).toEqual(expected);
     });
   });
 });
