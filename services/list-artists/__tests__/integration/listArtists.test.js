@@ -38,11 +38,7 @@ describe('createArtist', () => {
 
     const payload = JSON.parse(response.body);
 
-    expect(response.statusCode).toBe(200);
-    expect(payload.name).toBe('name');
-    expect(payload.genre).toBe('genre');
-    expect(payload.id).toBeTruthy();
-
     console.log(payload)
+    expect(response.statusCode).toBe(200);
   });
 });

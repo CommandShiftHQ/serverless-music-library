@@ -1,11 +1,11 @@
 const { DynamoDB } = require('aws-sdk');
-const configureAws = require('aws-skd');
+const configureAws = require('./src/utils/configureAws');
 const ArtistRepository = require('./src/repository/artist');
+
+configureAws();
 
 const { TABLE_NAME } = process.env;
 const db = new DynamoDB.DocumentClient();
-
-configureAws();
 
 module.exports.run = async () => {
   const artist = new ArtistRepository({
@@ -18,7 +18,7 @@ module.exports.run = async () => {
 
     return { statusCode: 200, body: JSON.stringify(artists) }
   } catch (err) {
-    const responseBody = { message: 'bad request', error: err.message };
-    return { statusCode: 402, body: JSON.stringify(responseBody) };
+    const responseBody = { error: err.message };
+    return { statusCode: 500, body: JSON.stringify(responseBody) };
   }
 } 
