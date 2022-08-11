@@ -7,7 +7,7 @@ describe('createArtist', () => {
 
   beforeAll(() => {
     configureAws();
-    db = new DynamoDB();
+    db = new DynamoDB.DocumentClient();
   });
 
   afterEach(async () => {
@@ -27,7 +27,7 @@ describe('createArtist', () => {
         },
       };
 
-      await db.deleteItem(deleteParams).promise();
+      await db.delete(deleteParams).promise();
     }));
   });
 
@@ -51,20 +51,16 @@ describe('createArtist', () => {
     const dbKey = `ARTIST#${payload.id}`;
     const params = {
       Key: {
-        partitionKey: {
-          S: dbKey
-        },
-        sortKey: {
-          S: dbKey
-        }
+        partitionKey: dbKey,
+        sortKey: dbKey
       },
       TableName: process.env.TABLE_NAME
     };
 
-    const { Item } = await db.getItem(params).promise();
+    const { Item } = await db.get(params).promise();
 
-    expect(Item.name.S).toBe('name');
-    expect(Item.genre.S).toBe('genre');
+    expect(Item.name).toBe('name');
+    expect(Item.genre).toBe('genre');
   });
 
   it('returns a 400 status code if name is undefined', async () => {
