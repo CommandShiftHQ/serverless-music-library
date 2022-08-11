@@ -7,10 +7,36 @@ describe('createArtist', () => {
 
   beforeAll(() => {
     configureAws();
-    db = new DynamoDB();
+    db = new DynamoDB.DocumentClient();
   });
 
-  beforeEach(() => {})
+  beforeEach(() => {
+    const items = [
+      {
+        id: 'ARTIST#artist1',
+        name: 'artist1',
+        genre: 'music'
+      },
+      {
+        id: 'ARTIST#artist2',
+        name: 'artist2',
+        genre: 'music'
+      }
+    ]
+
+    Promise.all(items.map((item) => {
+      const params = {
+        TableName: process.env.TABLE_NAME,
+        Item: {
+          partitionKey: item.id ,
+          sortKey: item.id ,
+          name: item.name ,
+          genre: item.genre 
+        }
+      }
+      return db.put(params).promise()}
+    ))
+  })
 
   afterEach(async () => {
     const params = {
@@ -29,7 +55,7 @@ describe('createArtist', () => {
         },
       };
 
-      await db.deleteItem(deleteParams).promise();
+      await db.delete(deleteParams).promise();
     }));
   });
 
@@ -38,7 +64,8 @@ describe('createArtist', () => {
 
     const payload = JSON.parse(response.body);
 
-    console.log(payload)
     expect(response.statusCode).toBe(200);
+
+    console.log(payload)
   });
 });
