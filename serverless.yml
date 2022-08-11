@@ -37,6 +37,15 @@ resources:
         TableName: ${self:custom.appName}
 
 functions:
+  createArtist:
+    name: ${self:custom.appName}-create-artist
+    handler: services/create-artist/handler.run
+    events:
+      - httpApi:
+          path: /artists
+          method: post
+    environment:
+      TABLE_NAME: ${self:custom.appName}
   listArtists:
     name: ${self:custom.appName}-list-artists 
     handler: services/list-artists/handler.run 
@@ -46,12 +55,12 @@ functions:
           method: get   
     environment:
       TABLE_NAME: ${self:custom.appName}
-  createArtist:
-    name: ${self:custom.appName}-create-artist
-    handler: services/create-artist/handler.run
+  getArtist:
+    name: ${self:custom.appName}-get-artist
+    handler: services/get-artist/handler.run
     events:
       - httpApi:
-          path: /artists
-          method: post
+          path: /artists/{id}
+          method: get
     environment:
       TABLE_NAME: ${self:custom.appName}
