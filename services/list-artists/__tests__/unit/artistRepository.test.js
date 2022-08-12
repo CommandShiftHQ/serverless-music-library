@@ -7,8 +7,8 @@ describe('Artist', () => {
       {
         partitionKey: 'ARTIST#artistId',
         sortKey: 'ARTIST#artistId',
-        name: { S: 'name' },
-        genre: { S: 'genre' }
+        name: 'name',
+        genre: 'genre'
       }
     ]};
 

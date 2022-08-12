@@ -2,7 +2,7 @@ const { DynamoDB } = require('aws-sdk');
 const configureAws = require('../utils/configureAws');
 const handler = require('../../handler');
 
-describe('createArtist', () => {
+describe('listArtists', () => {
   let db;
 
   beforeAll(() => {
@@ -10,7 +10,7 @@ describe('createArtist', () => {
     db = new DynamoDB.DocumentClient();
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const items = [
       {
         id: 'ARTIST#artist1',
@@ -24,7 +24,7 @@ describe('createArtist', () => {
       }
     ]
 
-    Promise.all(items.map((item) => {
+    await Promise.all(items.map((item) => {
       const params = {
         TableName: process.env.TABLE_NAME,
         Item: {
@@ -65,7 +65,15 @@ describe('createArtist', () => {
     const payload = JSON.parse(response.body);
 
     expect(response.statusCode).toBe(200);
-
-    console.log(payload)
+    expect(payload).toContainEqual({
+      id: 'artist1',
+      name: 'artist1',
+      genre: 'music'
+    })
+    expect(payload).toContainEqual({
+      id: 'artist2',
+      name: 'artist2',
+      genre: 'music'
+    })
   });
 });

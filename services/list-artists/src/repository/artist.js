@@ -15,8 +15,8 @@ class Artist {
 
     return response.Items.map(item => ({
       id: item.partitionKey.split('#')[1],
-      name: item.name.S,
-      genre: item.genre.S
+      name: item.name,
+      genre: item.genre
     }));
   }
 }
