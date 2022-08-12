@@ -6,21 +6,20 @@ describe('Artist', () => {
       const responseData = { Item: {
         partitionKey: 'ARTIST#artistId',
         sortKey: 'ARTIST#artistId',
-        name: { S: 'name' },
-        genre: { S: 'genre' }
+        name:  'name',
+        genre: 'genre'
       }
     };
 
       const expected = {genre: 'genre', id: 'artistId', name: 'name'}
 
-
-      const stubDbClient = { scan: () => ({ promise: () => Promise.resolve(responseData) }) };
+      const stubDbClient = { get: () => ({ promise: () => Promise.resolve(responseData) }) };
       const artist = new Artist({
         dbClient: stubDbClient,
         tableName: 'tableName',
       });
 
-      const actual = await artist.list()
+      const actual = await artist.read('artistId')
       expect(actual).toEqual(expected);
     });
   });
